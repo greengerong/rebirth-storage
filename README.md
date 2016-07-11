@@ -1,125 +1,92 @@
 # @rebirth/rebirth-storage
-> Java JPA like http lib for Angular2
+> TypeScript storage module(memory, sessionStorage, localStorage) and @Cacheable decorator
 
 Thanks [Paldom/angular2-rest](https://github.com/Paldom/angular2-rest) given us the inspiration.
 
 ## Install
 ```bash
-npm install rebirth-http --save-dev
+npm install rebirth-storage --save-dev
 ```
 
 ## How to use?
 
-### Register `REBIRTH_HTTP_PROVIDERS`
+### StorageService for storage data
+
+#### Register StorageService
 
 ```typescript
-    import { REBIRTH_HTTP_PROVIDERS } from 'rebirth-http';
+    import { REBIRTH_STORAGE_PROVIDERS } from 'rebirth-storage';
     
-    bootstrap(AppComponent,[ ...REBIRTH_HTTP_PROVIDERS]);
+    bootstrap(AppComponent,[ ...REBIRTH_STORAGE_PROVIDERS]);
 ```
    
-### rebirth-http service
+### rebirth-storage service
 
 ```typescript
     import { Injectable } from '@angular/core';
-    import { Http } from '@angular/http';
-    import { SearchResult } from './SearchResult';
-    import { Article } from './article';
-    import { Observable } from 'rxjs/Observable';
-    import { RebirthHttp, RebirthHttpProvider, BaseUrl, GET, POST, PUT, DELETE, Query, Path, Body } from  'rebirth-http';
+    import { StorageService } from  'rebirth-storage';
     
     @Injectable()
-    export class ArticleService extends RebirthHttp {
+    export class StorageServiceDemo {
     
-      constructor(http: Http, rebirthHttpProvider: RebirthHttpProvider) {
-        super(http, rebirthHttpProvider);
+      constructor(private storageService: StorageService) {
       }
     
-      @GET('article')
-      getArticles(@Query('pageIndex') pageIndex = 1,
-                  @Query('pageSize') pageSize = 10): Observable<SearchResult<Article>> {
-        return null; // leave `return null` due to TypeScript Interface isn't visable in runtime
+      
+      demo() {
+        this.storageService
       }
-    
-      @GET('article/:id')
-      getArticleByUrl(@Path('id') articleUrl: string): Observable<Article> {
-        return null;
-      }
-      
-      @POST("article")
-      createArticle( @Body article: Article): Observable {
-        return null; 
-      };
-      
-      @PUT("article/:id")
-      updateArticle( @Path("id") id: string, @Body article: Article): Observable {
-        return null; 
-      };
-      
-      @DELETE("article/:id")
-      deleteArticleById( @Path("id") id: string): Observable {
-        return null; 
-      };
-
     }
 ```
 
-### Global interceptors
+### @Cacheable
 
 ```typescript
-    import { RebirthHttpProvider } from 'rebirth-http';
+    import { Jsonp } from '@angular/http';
+    import { Injectable } from '@angular/core';
+    import { Observable }     from 'rxjs/Observable';
+    import { Cacheable, StorageType } from 'rebirth-common';
+    import config from 'config';
     
-    @Component({
-      selector: 'app',
-      pipes: [],
-      providers: [],
-      directives: [],
-      styles: [
-        require('./app.scss')
-      ],
-      template: '<router-outlet></router-outlet>'
-    })
-    export class AppComponent {
+    @Injectable()
+    export class QuestionService {
+      constructor(private jsonp: Jsonp) {
+      }
     
-      constructor(rebirthHttpProvider: RebirthHttpProvider) {
-    
-        rebirthHttpProvider
-          .baseUrl(config.api.host)
-          .json()
-          .addInterceptor({
-            request: request => {
-              console.log('Global interceptors(request)', request);
-            },
-            response: (stream) => stream.map(response => {
-              console.log('Global interceptors(response)', response);
-              return response;
-            })
-          });
+      @Cacheable({ pool: 'question' })
+      getQuestions(): Observable<any> {
+        return this.jsonp
+          .get(config.question.url)
+          .map(res => res.json().data);
       }
     }
 ```   
-    
-## API Docs
 
-### rebirth-http
+## Build project
 
-#### Methods:
-- `getBaseUrl(): string`: returns the base url of RebirthHttp
-- `getDefaultHeaders(): Object`: returns the default headers of RebirthHttp in a key-value pair
+### run project
 
-### Class decorators:
-- `@BaseUrl(url: string)`
-- `@DefaultHeaders(headers: Object)`
+```bash
+npm install -g typescript karma 
+npm install
 
-### Method decorators:
-- `@GET(url: String)`
-- `@POST(url: String)`
-- `@PUT(url: String)`
-- `@DELETE(url: String)`
-- `@Headers(headers: Object)`
+```
 
-### Parameter decorators:
-- `@Path(key: string)`
-- `@Query(key: string)`
-- `@Header(key: string)`
-- `@Body`
+
+### build
+
+```bash
+npm run build
+```
+
+### test(tslint, karma)
+
+```bash
+npm test
+```
+
+### API Doc
+
+```bash
+npm run docs
+```

@@ -10,7 +10,7 @@
     "src"
   ],
   "scripts": {
-    "typings-install": "typings install",
+    "preinstall": "typings install",
     "watch": "tsc --watch",
     "prebuild": "rimraf dist",
     "build": "tsc",
@@ -44,11 +44,14 @@
     "file-loader": "^0.9.0",
     "imports-loader": "^0.6.5",
     "istanbul-instrumenter-loader": "^0.2.0",
+    "jasmine-core": "^2.4.1",
     "json-loader": "^0.5.4",
     "karma": "^1.1.1",
     "karma-chrome-launcher": "^1.0.1",
     "karma-coverage": "^1.1.0",
     "karma-jasmine": "^1.0.2",
+    "karma-mocha-reporter": "^2.0.4",
+    "karma-phantomjs-launcher": "^1.0.1",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "raw-loader": "0.5.1",
