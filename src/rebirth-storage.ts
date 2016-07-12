@@ -178,14 +178,16 @@ class MemoryStorage implements IStorage {
 
 @Injectable()
 export class StorageService {
+    sessionStorage: Storage = window.sessionStorage;
+    localStorage: Storage = window.localStorage;
     private defaultStorageType: StorageType = StorageType.memory;
     private storages: Map<Object, IStorage>;
-
+    
     constructor() {
         this.storages = new Map<String, IStorage>();
         this.storages.set(StorageType.memory, new MemoryStorage())
-            .set(StorageType.sessionStorage, new WebStorage(window.sessionStorage))
-            .set(StorageType.localStorage, new WebStorage(window.localStorage));
+            .set(StorageType.sessionStorage, new WebStorage(this.sessionStorage))
+            .set(StorageType.localStorage, new WebStorage(this.localStorage));
     }
 
     setDefaultStorageType(storageType: StorageType): void {

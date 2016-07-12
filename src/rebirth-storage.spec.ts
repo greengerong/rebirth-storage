@@ -9,7 +9,7 @@ describe('rebirth storage', () => {
             storageService = new StorageService();
         });
 
-        it('should storage data to session storage', () => {
+        it('should storage data to session storage', (done) => {
             let data = { name: 'greengerong' };
             let pool = 'default-pool';
             let key = 'test';
@@ -22,19 +22,22 @@ describe('rebirth storage', () => {
                 data
             );
 
-            expect(JSON.parse(sessionStorage.getItem(pool)).test).toEqual(data);
-            expect(storageService.get({ pool, key, storageType })).toEqual(data);
+            setTimeout(() => {
+                expect(JSON.parse(window.sessionStorage.getItem(pool)).test).toEqual(data);
+                expect(storageService.get({ pool, key, storageType })).toEqual(data);
 
-            storageService.remove({ pool, key, storageType });
-            expect(JSON.parse(sessionStorage.getItem(pool))).toEqual({ test: null });
-            expect(JSON.parse(sessionStorage.getItem(pool)).test).toBeNull();
+                storageService.remove({ pool, key, storageType });
+                expect(JSON.parse(window.sessionStorage.getItem(pool))).toEqual({ test: null });
+                expect(JSON.parse(window.sessionStorage.getItem(pool)).test).toBeNull();
 
-            storageService.remove({ pool, storageType });
-            expect(sessionStorage.getItem(pool)).toBeNull();
+                storageService.remove({ pool, storageType });
+                expect(window.sessionStorage.getItem(pool)).toBeNull();
+                done();
+            });
 
         });
 
-        it('should storage data to local storage', () => {
+        it('should storage data to local storage', (done) => {
             let data = { name: 'greengerong' };
             let pool = 'default-pool';
             let key = 'test';
@@ -47,15 +50,18 @@ describe('rebirth storage', () => {
                 data
             );
 
-            expect(JSON.parse(localStorage.getItem(pool)).test).toEqual(data);
-            expect(storageService.get({ pool, key, storageType })).toEqual(data);
+            setTimeout(() => {
+                expect(JSON.parse(window.localStorage.getItem(pool)).test).toEqual(data);
+                expect(storageService.get({ pool, key, storageType })).toEqual(data);
 
-            storageService.remove({ pool, key, storageType });
-            expect(JSON.parse(localStorage.getItem(pool))).toEqual({ test: null });
-            expect(JSON.parse(localStorage.getItem(pool)).test).toBeNull();
+                storageService.remove({ pool, key, storageType });
+                expect(JSON.parse(window.localStorage.getItem(pool))).toEqual({ test: null });
+                expect(JSON.parse(window.localStorage.getItem(pool)).test).toBeNull();
 
-            storageService.remove({ pool, storageType });
-            expect(localStorage.getItem(pool)).toBeNull();
+                storageService.remove({ pool, storageType });
+                expect(window.localStorage.getItem(pool)).toBeNull();
+                done();
+            });
 
         });
 
