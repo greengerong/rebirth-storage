@@ -23,21 +23,35 @@ npm install rebirth-storage --save-dev
 ### rebirth-storage service
 
 ```typescript
-    import { Injectable } from '@angular/core';
-    import { StorageService } from  'rebirth-storage';
-    
-    @Injectable()
-    export class StorageServiceDemo {
-    
-      constructor(private storageService: StorageService) {
-      }
-    
-      
-      demo() {
-        this.storageService
-      }
+    export declare class StorageService {
+        sessionStorage: Storage;
+        localStorage: Storage;
+        private defaultStorageType;
+        private storages;
+        constructor();
+        setDefaultStorageType(storageType: StorageType): void;
+        get({pool, key, storageType}: {
+            pool?: string;
+            key: string;
+            storageType?: StorageType;
+        }): Object;
+        put({pool, key, storageType}: {
+            pool?: string;
+            key: string;
+            storageType?: StorageType;
+        }, value: Object): any;
+        remove({pool, key, storageType}: {
+            pool?: string;
+            key?: string;
+            storageType?: StorageType;
+        }): any;
+        removeAll({storageType}: {
+            storageType?: StorageType;
+        }): any;
     }
 ```
+StorageType can be memory, sessionStorage, localStorage. Also can storage Rx, promise and normal object.
+
 
 ### @Cacheable
 
@@ -62,12 +76,24 @@ npm install rebirth-storage --save-dev
     }
 ```   
 
+API:
+
+```typescript
+export declare function Cacheable({pool, key, storageType}?: {
+    pool?: string;
+    key?: string;
+    storageType?: StorageType;
+}): (target: any, name: string, methodInfo: any) => {
+    value: (...args: any[]) => any;
+};
+```
+
 ## Build project
 
 ### run project
 
 ```bash
-npm install -g typescript karma webpack
+npm install -g typescript karma
 npm install
 
 ```

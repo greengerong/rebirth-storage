@@ -182,7 +182,7 @@ export class StorageService {
     localStorage: Storage = window.localStorage;
     private defaultStorageType: StorageType = StorageType.memory;
     private storages: Map<Object, IStorage>;
-    
+
     constructor() {
         this.storages = new Map<String, IStorage>();
         this.storages.set(StorageType.memory, new MemoryStorage())
@@ -221,7 +221,7 @@ export class StorageFactory {
     }
 }
 
-export function Cacheable({ pool= DEFAULT_STORAGE_POOL_KEY, key, storageType = StorageType.memory }?:
+export function Cacheable({ pool= DEFAULT_STORAGE_POOL_KEY, key, storageType = StorageType.memory }:
     { pool?: string, key?: string, storageType?: StorageType } = {}) {
 
     const storageService = StorageFactory.getStorageService();
@@ -240,7 +240,7 @@ export function Cacheable({ pool= DEFAULT_STORAGE_POOL_KEY, key, storageType = S
             if (data) {
                 return data;
             }
-            
+
             let result = method.apply(this, args || []);
             return storageService.put({ pool, key, storageType }, result);
         };
