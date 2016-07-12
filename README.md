@@ -1,8 +1,6 @@
 # @rebirth/rebirth-storage([![Build Status](https://travis-ci.org/greengerong/rebirth-storage.svg?branch=master)](https://travis-ci.org/greengerong/rebirth-storage))
 > TypeScript storage module(memory, sessionStorage, localStorage) and @Cacheable decorator
 
-Thanks [Paldom/angular2-rest](https://github.com/Paldom/angular2-rest) given us the inspiration.
-
 ## Install
 ```bash
 npm install rebirth-storage --save-dev
