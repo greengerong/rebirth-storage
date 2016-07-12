@@ -10,7 +10,6 @@
     "src"
   ],
   "scripts": {
-    "preinstall": "typings install",
     "watch": "tsc --watch",
     "prebuild": "rimraf dist",
     "build": "tsc",

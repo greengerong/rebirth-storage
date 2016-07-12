@@ -4,7 +4,8 @@ node_js:
   - "6"
 
 before_script:
-  - npm install -g karma typescript
+  - npm install -g karma typescript typings
   - npm install
+  - typings install
 
 sudo: false

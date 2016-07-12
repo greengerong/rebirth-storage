@@ -3,7 +3,7 @@
 
 ## Install
 ```bash
-npm install rebirth-storage --save-dev
+npm install rebirth-storage --save
 ```
 
 ## How to use?
@@ -93,6 +93,7 @@ export declare function Cacheable({pool, key, storageType}?: {
 ```bash
 npm install -g typescript karma
 npm install
+typings install
 
 ```
 
