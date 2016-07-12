@@ -2,7 +2,7 @@
   "name": "rebirth-storage",
   "version": "0.0.1",
   "author": "greengerong<grzx2210@163.com>",
-  "description": "Java JPA like http lib for Angular2",
+  "description": "TypeScript storage module(memory, sessionStorage, localStorage) and @Cacheable decorator",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
