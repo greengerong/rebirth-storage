@@ -73,11 +73,11 @@ module.exports = webpackMerge(devConfig, {
              *
              * See: https://github.com/wbuchwalter/tslint-loader
              */
-            // {
-            //   test: /\.ts$/,
-            //   loader: 'tslint-loader',
-            //   exclude: [utils.root('node_modules')]
-            // },
+            {
+                test: /\.ts$/,
+                loader: 'tslint-loader',
+                exclude: [utils.root('node_modules')]
+            },
 
             /**
              * Source map loader support for *.js files
@@ -223,7 +223,7 @@ module.exports = webpackMerge(devConfig, {
      */
     tslint: {
         emitErrors: true,
-        failOnHint: true,
+        failOnHint: false,
         resourcePath: 'src'
     },
 

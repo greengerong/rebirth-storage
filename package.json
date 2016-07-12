@@ -17,6 +17,7 @@
     "lint": "tslint 'src/**/*.ts'",
     "pretest": "npm run lint",
     "test": "karma start",
+    "karma:debug": "karma start --auto-watch --no-single-run --browsers Chrome",
     "start": "npm run build",
     "typedoc": "typedoc",
     "docs": "npm run typedoc -- --options typedoc.json --exclude '**/*.spec.ts' ./src/"
@@ -33,6 +34,7 @@
     "@angular/router": "3.0.0-beta.2",
     "angular2-template-loader": "^0.4.0",
     "awesome-typescript-loader": "^2.0.1",
+    "copy-webpack-plugin": "^3.0.1",
     "core-js": "^2.4.0",
     "css-loader": "^0.23.1",
     "es6-promise": "^3.1.2",
@@ -42,6 +44,7 @@
     "exports-loader": "^0.6.3",
     "expose-loader": "^0.7.1",
     "file-loader": "^0.9.0",
+    "html-webpack-plugin": "^2.21.0",
     "imports-loader": "^0.6.5",
     "istanbul-instrumenter-loader": "^0.2.0",
     "jasmine-core": "^2.4.1",
@@ -70,6 +73,7 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1",
+    "webpack-md5-hash": "^0.0.5",
     "webpack-merge": "^0.14.0",
     "zone.js": "~0.6.12"
   },
@@ -81,5 +85,8 @@
   "bugs": {
     "url": "https://github.com/greengerong/rebirth-storage/issues"
   },
-  "homepage": "https://github.com/greengerong/rebirth-storage#readme"
+  "homepage": "https://github.com/greengerong/rebirth-storage#readme",
+  "dependencies": {
+    "lodash": "^4.13.1"
+  }
 }

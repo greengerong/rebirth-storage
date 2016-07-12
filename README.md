@@ -67,7 +67,7 @@ npm install rebirth-storage --save-dev
 ### run project
 
 ```bash
-npm install -g typescript karma 
+npm install -g typescript karma webpack
 npm install
 
 ```
