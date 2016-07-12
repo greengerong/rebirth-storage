@@ -1,8 +1,8 @@
-import { StorageService, StorageType } from './rebirth-storage';
+import { StorageService, StorageType, Cacheable } from './rebirth-storage';
 
 describe('rebirth storage', () => {
 
-    describe('StorageService', ()=> {
+    describe('StorageService', () => {
         let storageService: StorageService;
 
         beforeEach(() => {
@@ -72,7 +72,7 @@ describe('rebirth storage', () => {
                 data
             );
 
-            setTimeout(()=> {
+            setTimeout(() => {
                 expect(storageService.get({ pool, key, storageType })).toEqual(data);
                 storageService.remove({ pool, key, storageType });
                 expect(storageService.get({ pool, key, storageType })).toBeNull();
@@ -85,7 +85,7 @@ describe('rebirth storage', () => {
         });
     });
 
-    describe('@Cacheable', ()=> {
+    describe('@Cacheable', () => {
         let data = 'greengerong';
         let http = jasmine.createSpyObj('http', ['getData']);
         http.getData.and.returnValue({ name: data });
@@ -95,8 +95,9 @@ describe('rebirth storage', () => {
             return http.getData();
         }
 
-        it('Should get data from ', ()=> {
-            
-        });
+        //
+        // it('Should get data from ', ()=> {
+        //
+        // });
     });
 });
