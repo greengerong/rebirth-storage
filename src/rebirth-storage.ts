@@ -221,7 +221,7 @@ export class StorageFactory {
     }
 }
 
-export function Cacheable({ pool= DEFAULT_STORAGE_POOL_KEY, key, storageType = StorageType.memory }:
+export function Cacheable({ pool = DEFAULT_STORAGE_POOL_KEY, key, storageType = StorageType.memory }:
     { pool?: string, key?: string, storageType?: StorageType } = {}) {
 
     const storageService = StorageFactory.getStorageService();
@@ -256,5 +256,8 @@ export function Cacheable({ pool= DEFAULT_STORAGE_POOL_KEY, key, storageType = S
 }
 
 export const REBIRTH_STORAGE_PROVIDERS: Array<any> = [
-    StorageService
+    {
+        provide: StorageService,
+        useClass: StorageService
+    },
 ];
