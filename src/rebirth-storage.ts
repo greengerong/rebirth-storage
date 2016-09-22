@@ -1,7 +1,10 @@
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { Injectable } from '@angular/core';
-import * as _ from 'lodash';
+
+function cloneDeep(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
 
 export const DEFAULT_STORAGE_POOL_KEY = 'rebirth-storage:default';
 
@@ -148,14 +151,14 @@ class MemoryStorage implements IStorage {
 
     get({ pool = DEFAULT_STORAGE_POOL_KEY, key }: {pool?: string , key: string}): Object {
         let storage = this.getAll(pool);
-        return storage.has(key) ? _.cloneDeep(storage.get(key)) : null;
+        return storage.has(key) ? cloneDeep(storage.get(key)) : null;
     }
 
     put({ pool = DEFAULT_STORAGE_POOL_KEY, key }: {pool?: string , key: string}, value: Object) {
         if (!this.storage.has(pool)) {
             this.storage.set(pool, new Map<string, Object>());
         }
-        this.storage.get(pool).set(key, _.cloneDeep(value));
+        this.storage.get(pool).set(key, cloneDeep(value));
     }
 
     remove({ pool = DEFAULT_STORAGE_POOL_KEY, key }: {pool?: string , key?: string}) {

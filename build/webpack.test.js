@@ -7,6 +7,7 @@ const devConfig = {};
  */
 const ProvidePlugin = require('webpack/lib/ProvidePlugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
+const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
 
 /**
  * Webpack Constants
@@ -211,8 +212,6 @@ module.exports = webpackMerge(devConfig, {
                 'HMR': false,
             }
         }),
-
-
     ],
 
     /**

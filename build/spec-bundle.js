@@ -17,7 +17,6 @@ require('ts-helpers');
 
 // RxJS
 require('rxjs/Rx');
-require('lodash');
 
 /*
  * Ok, this is kinda crazy. We can use the the context method on

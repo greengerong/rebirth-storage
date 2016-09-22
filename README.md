@@ -13,9 +13,28 @@ npm install rebirth-storage --save
 #### Register StorageService
 
 ```typescript
-    import { REBIRTH_STORAGE_PROVIDERS } from 'rebirth-storage';
+    import { RebirthStorageModule } from 'rebirth-storage';
     
-    bootstrap(AppComponent,[ ...REBIRTH_STORAGE_PROVIDERS]);
+    @NgModule({
+      imports: [
+        BrowserModule,
+        CommonModule,
+        SharedModule.forRoot(),
+        RebirthStorageModule
+      ],
+      declarations: [
+        AppComponent
+      ],
+      providers: [
+      ],
+      bootstrap: [
+        AppComponent
+      ]
+    })
+    export class AppModule {
+    }
+    
+    platformBrowserDynamic().bootstrapModule(AppModule)
 ```
    
 ### rebirth-storage service
@@ -93,7 +112,6 @@ export declare function Cacheable({pool, key, storageType}?: {
 ```bash
 npm install -g typescript karma
 npm install
-typings install
 
 ```
 
