@@ -1,6 +1,6 @@
 {
   "name": "rebirth-storage",
-  "version": "0.0.5",
+  "version": "0.0.5-build-1",
   "author": "greengerong<grzx2210@163.com>",
   "description": "TypeScript storage module(memory, sessionStorage, localStorage) and @Cacheable decorator",
   "main": "dist/index.js",
