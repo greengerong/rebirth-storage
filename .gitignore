@@ -39,3 +39,4 @@ node_modules
 /typings/
 doc/
 yarn.lock
+aot/
