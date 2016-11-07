@@ -23,12 +23,20 @@
     "typings/main",
     "typings/main.d.ts"
   ],
+  "files": [
+    "node_modules/typescript/lib/lib.es6.d.ts",
+    "src/index.ts",
+    "src/rebirth-storage.module.ts",
+    "src/rebirth-storage.ts"
+  ],
   "compileOnSave": false,
   "buildOnSave": false,
   "atom": {
     "rewriteTsconfig": false
   },
   "angularCompilerOptions": {
-    "strictMetadataEmit": true
+    "genDir": "aot",
+    "strictMetadataEmit": true,
+    "debug": false
   }
 }
