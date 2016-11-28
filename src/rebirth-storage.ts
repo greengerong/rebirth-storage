@@ -249,7 +249,7 @@ export function Cacheable({ pool = DEFAULT_STORAGE_POOL_KEY, key, storageType = 
         };
 
         (<any>proxy).cacheEvict = function () {
-            storageService.remove(pool);
+            storageService.remove({ pool, key });
         };
 
         return {
