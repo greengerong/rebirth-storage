@@ -1,4 +1,10 @@
-# @rebirth/rebirth-storage([![Build Status](https://travis-ci.org/greengerong/rebirth-storage.svg?branch=master)](https://travis-ci.org/greengerong/rebirth-storage))
+# @rebirth/rebirth-storage
+
+[![Build Status](https://travis-ci.org/greengerong/rebirth-storage.svg?branch=master)](https://travis-ci.org/greengerong/rebirth-storage)
+[![dependcy](https://david-dm.org/greengerong/rebirth-storage.svg)](https://david-dm.org/greengerong/rebirth-storage)
+[![dev dependcy](https://david-dm.org/greengerong/rebirth-storage/dev-status.svg)](https://david-dm.org/greengerong/rebirth-storage?type=dev)
+[![npm version](https://img.shields.io/npm/v/rebirth-storage.svg)](https://www.npmjs.com/package/rebirth-storage)
+
 > TypeScript storage module(memory, sessionStorage, localStorage) and @Cacheable decorator
 
 ## Install
