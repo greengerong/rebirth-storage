@@ -95,7 +95,7 @@ class DataCacheStrategyFactory {
 }
 
 export interface IStorage {
-    getAll(pool: string): Map<string, Object>;
+    getAll(pool: string): any;
     get(options: { pool?: string, key: string }): Object;
     put(options: { pool?: string, key: string }, value: Object): any;
     remove(options: { pool?: string, key?: string });
@@ -147,7 +147,7 @@ export class MemoryStorage implements IStorage {
         this.storage = new Map<string, Map<string, Object>>();
     }
 
-    getAll(pool: string): Map<string, Object> {
+    getAll(pool: string): any {
         return this.storage.has(pool) ? this.storage.get(pool) : new Map<string, Object>();
     }
 
@@ -196,6 +196,11 @@ export class StorageService {
 
     setDefaultStorageType(storageType: StorageType): void {
         this.defaultStorageType = storageType;
+    }
+
+    get({ pool, storageType }: { pool: string, storageType?: StorageType }): any {
+        const storage: IStorage = <IStorage> this.storages.get(storageType || this.defaultStorageType);
+        return storage.getAll(pool);
     }
 
     get({ pool, key, storageType }: { pool?: string, key: string, storageType?: StorageType }): Object {
