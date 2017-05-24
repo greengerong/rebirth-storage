@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { Injectable } from '@angular/core';
+import { Map } from 'es7-reflect-metadata/dist/dist/shim/map';
 
 function cloneDeep(obj) {
     return JSON.parse(JSON.stringify(obj));
@@ -73,7 +74,7 @@ class DataCacheStrategyFactory {
         this.dataCacheStrategies = [new RxDataCacheStrategy(), new PromiseDataCacheStrategy()];
     }
 
-    put(options: {pool?: string, key: string}, value: any, storage: IStorage) {
+    put(options: { pool?: string, key: string }, value: any, storage: IStorage) {
         let strategy = this.dataCacheStrategies.find(t => t.match(value));
         if (strategy) {
             return strategy.put(value, (result) => storage.put(options, { type: strategy.name(), result }));
@@ -94,13 +95,14 @@ class DataCacheStrategyFactory {
 }
 
 export interface IStorage {
-    get(options: {pool?: string, key: string}): Object;
-    put(options: {pool?: string, key: string}, value: Object): any;
-    remove(options: {pool?: string, key?: string});
+    getAll(pool: string): Map<string, Object>;
+    get(options: { pool?: string, key: string }): Object;
+    put(options: { pool?: string, key: string }, value: Object): any;
+    remove(options: { pool?: string, key?: string });
     removeAll();
 }
 
-class WebStorage implements IStorage {
+export class WebStorage implements IStorage {
     constructor(private webStorage: Storage) {
     }
 
@@ -113,18 +115,18 @@ class WebStorage implements IStorage {
         this.webStorage.setItem(pool, JSON.stringify(storage));
     }
 
-    get({ pool = DEFAULT_STORAGE_POOL_KEY, key }: {pool?: string , key: string}): Object {
+    get({ pool = DEFAULT_STORAGE_POOL_KEY, key }: { pool?: string, key: string }): Object {
         let storage = this.getAll(pool);
         return storage[key];
     }
 
-    put({ pool = DEFAULT_STORAGE_POOL_KEY, key }: {pool?: string , key: string}, value: Object): any {
+    put({ pool = DEFAULT_STORAGE_POOL_KEY, key }: { pool?: string, key: string }, value: Object): any {
         let storage = this.getAll(pool);
         storage[key] = value;
         return this.saveAll(pool, storage);
     }
 
-    remove({ pool = DEFAULT_STORAGE_POOL_KEY, key }: {pool?: string , key?: string}) {
+    remove({ pool = DEFAULT_STORAGE_POOL_KEY, key }: { pool?: string, key?: string }) {
         if (!key) {
             this.webStorage.removeItem(pool);
             return;
@@ -138,7 +140,7 @@ class WebStorage implements IStorage {
     }
 }
 
-class MemoryStorage implements IStorage {
+export class MemoryStorage implements IStorage {
     private storage: Map<string, Map<string, Object>>;
 
     constructor() {
@@ -149,19 +151,19 @@ class MemoryStorage implements IStorage {
         return this.storage.has(pool) ? this.storage.get(pool) : new Map<string, Object>();
     }
 
-    get({ pool = DEFAULT_STORAGE_POOL_KEY, key }: {pool?: string , key: string}): Object {
+    get({ pool = DEFAULT_STORAGE_POOL_KEY, key }: { pool?: string, key: string }): Object {
         let storage = this.getAll(pool);
         return storage.has(key) ? cloneDeep(storage.get(key)) : null;
     }
 
-    put({ pool = DEFAULT_STORAGE_POOL_KEY, key }: {pool?: string , key: string}, value: Object) {
+    put({ pool = DEFAULT_STORAGE_POOL_KEY, key }: { pool?: string, key: string }, value: Object) {
         if (!this.storage.has(pool)) {
             this.storage.set(pool, new Map<string, Object>());
         }
         this.storage.get(pool).set(key, cloneDeep(value));
     }
 
-    remove({ pool = DEFAULT_STORAGE_POOL_KEY, key }: {pool?: string , key?: string}) {
+    remove({ pool = DEFAULT_STORAGE_POOL_KEY, key }: { pool?: string, key?: string }) {
         if (!key) {
             this.storage.delete(pool);
             return;
@@ -181,38 +183,55 @@ class MemoryStorage implements IStorage {
 
 @Injectable()
 export class StorageService {
-    sessionStorage: Storage = window.sessionStorage;
-    localStorage: Storage = window.localStorage;
+    sessionStorage: Storage;
+    localStorage: Storage;
+    memoryStorage: MemoryStorage;
+    storages: Map<Object, IStorage>;
+
     private defaultStorageType: StorageType = StorageType.memory;
-    private storages: Map<Object, IStorage>;
 
     constructor() {
-        this.storages = new Map<String, IStorage>();
-        this.storages.set(StorageType.memory, new MemoryStorage())
-            .set(StorageType.sessionStorage, new WebStorage(this.sessionStorage))
-            .set(StorageType.localStorage, new WebStorage(this.localStorage));
+        this.setupStorages();
     }
 
     setDefaultStorageType(storageType: StorageType): void {
         this.defaultStorageType = storageType;
     }
 
-    get({ pool, key, storageType }: {pool?: string, key: string, storageType?: StorageType}): Object {
+    get({ pool, key, storageType }: { pool?: string, key: string, storageType?: StorageType }): Object {
         let data = this.storages.get(storageType || this.defaultStorageType).get({ pool, key });
         return DataCacheStrategyFactory.getInstance().get(data);
     }
 
-    put({ pool, key, storageType }: {pool?: string, key: string, storageType?: StorageType}, value: Object): any {
+    put({ pool, key, storageType }: { pool?: string, key: string, storageType?: StorageType }, value: Object): any {
         let storage = this.storages.get(storageType || this.defaultStorageType);
         return DataCacheStrategyFactory.getInstance().put({ pool, key }, value, storage);
     }
 
-    remove({ pool, key, storageType }: {pool?: string, key?: string, storageType?: StorageType}) {
+    remove({ pool, key, storageType }: { pool?: string, key?: string, storageType?: StorageType }) {
         return this.storages.get(storageType || this.defaultStorageType).remove({ pool, key });
     }
 
-    removeAll({ storageType }: { storageType?: StorageType}) {
+    removeAll({ storageType }: { storageType?: StorageType }) {
         return this.storages.get(storageType || this.defaultStorageType).removeAll();
+    }
+
+    private setupStorages() {
+        this.storages = new Map<String, IStorage>();
+        this.memoryStorage = new MemoryStorage();
+
+        if (window) {
+            this.sessionStorage = window.sessionStorage;
+            this.localStorage = window.localStorage;
+            this.storages.set(StorageType.memory, this.memoryStorage)
+                .set(StorageType.sessionStorage, new WebStorage(this.sessionStorage))
+                .set(StorageType.localStorage, new WebStorage(this.localStorage));
+            return;
+        }
+
+        this.storages.set(StorageType.memory, this.memoryStorage)
+            .set(StorageType.sessionStorage, this.memoryStorage)
+            .set(StorageType.localStorage, this.memoryStorage);
     }
 }
 
@@ -224,8 +243,7 @@ export class StorageFactory {
     }
 }
 
-export function Cacheable({ pool = DEFAULT_STORAGE_POOL_KEY, key, storageType = StorageType.memory }:
-    { pool?: string, key?: string, storageType?: StorageType } = {}) {
+export function Cacheable({ pool = DEFAULT_STORAGE_POOL_KEY, key, storageType = StorageType.memory }: { pool?: string, key?: string, storageType?: StorageType } = {}) {
 
     const storageService = StorageFactory.getStorageService();
     let getKey = (target: any, method: string, args: Object[]) => {
