@@ -248,7 +248,8 @@ export class StorageFactory {
     }
 }
 
-export function Cacheable({ pool = DEFAULT_STORAGE_POOL_KEY, key, storageType = StorageType.memory }: { pool?: string, key?: string, storageType?: StorageType } = {}) {
+export function Cacheable({ pool = DEFAULT_STORAGE_POOL_KEY, key, storageType = StorageType.memory }:
+                              { pool?: string, key?: string, storageType?: StorageType } = {}) {
 
     const storageService = StorageFactory.getStorageService();
     let getKey = (target: any, method: string, args: Object[]) => {
