@@ -5,12 +5,16 @@
     "stripInternal": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": false,
     "noImplicitAny": false,
     "noImplicitReturns": false,
     "target": "es5",
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "module": "es2015",
     "sourceMap": false,
     "inlineSources": false,
     "noEmitHelpers": false,

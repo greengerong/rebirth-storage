@@ -160,7 +160,7 @@ export class MemoryStorage implements IStorage {
         if (!this.storage.has(pool)) {
             this.storage.set(pool, new Map<string, Object>());
         }
-        this.storage.get(pool).set(key, cloneDeep(value));
+        ( this.storage.get(pool) as any).set(key, cloneDeep(value));
     }
 
     remove({ pool = DEFAULT_STORAGE_POOL_KEY, key }: { pool?: string, key?: string }) {
@@ -204,21 +204,21 @@ export class StorageService {
     }
 
     get({ pool, key, storageType }: { pool?: string, key: string, storageType?: StorageType }): Object {
-        let data = this.storages.get(storageType || this.defaultStorageType).get({ pool, key });
+        let data = (this.storages.get(storageType || this.defaultStorageType) as any).get({ pool, key });
         return DataCacheStrategyFactory.getInstance().get(data);
     }
 
     put({ pool, key, storageType }: { pool?: string, key: string, storageType?: StorageType }, value: Object): any {
-        let storage = this.storages.get(storageType || this.defaultStorageType);
+        let storage: any = this.storages.get(storageType || this.defaultStorageType);
         return DataCacheStrategyFactory.getInstance().put({ pool, key }, value, storage);
     }
 
     remove({ pool, key, storageType }: { pool?: string, key?: string, storageType?: StorageType }) {
-        return this.storages.get(storageType || this.defaultStorageType).remove({ pool, key });
+        return (this.storages.get(storageType || this.defaultStorageType) as any).remove({ pool, key });
     }
 
     removeAll({ storageType }: { storageType?: StorageType }) {
-        return this.storages.get(storageType || this.defaultStorageType).removeAll();
+        return (this.storages.get(storageType || this.defaultStorageType) as any).removeAll();
     }
 
     private setupStorages() {
@@ -248,8 +248,7 @@ export class StorageFactory {
     }
 }
 
-export function Cacheable({ pool = DEFAULT_STORAGE_POOL_KEY, key, storageType = StorageType.memory }:
-                              { pool?: string, key?: string, storageType?: StorageType } = {}) {
+export function Cacheable({ pool = DEFAULT_STORAGE_POOL_KEY, key, storageType = StorageType.memory }: { pool?: string, key?: string, storageType?: StorageType } = {}) {
 
     const storageService = StorageFactory.getStorageService();
     let getKey = (target: any, method: string, args: Object[]) => {
