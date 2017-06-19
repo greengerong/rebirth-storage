@@ -198,7 +198,7 @@ export class StorageService {
         this.defaultStorageType = storageType;
     }
 
-    get({ pool, storageType }: { pool: string, storageType?: StorageType }): any {
+    getAll({ pool, storageType }: { pool: string, storageType?: StorageType }): any {
         const storage: IStorage = <IStorage> this.storages.get(storageType || this.defaultStorageType);
         return storage.getAll(pool);
     }
