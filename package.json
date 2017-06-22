@@ -1,16 +1,12 @@
 {
   "name": "rebirth-storage",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "author": "greengerong<grzx2210@163.com>",
   "description": "TypeScript storage module(memory, sessionStorage, localStorage) and @Cacheable decorator",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "main": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
-    "ngc": "ngc -p .",
+    "ngc": "ngc -p . && cp package.json ./dist",
     "watch": "tsc --watch",
     "prebuild": "rimraf dist",
     "build": "tsc",
