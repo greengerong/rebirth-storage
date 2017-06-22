@@ -1,6 +1,6 @@
 {
   "name": "rebirth-storage",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "author": "greengerong<grzx2210@163.com>",
   "description": "TypeScript storage module(memory, sessionStorage, localStorage) and @Cacheable decorator",
   "main": "index.js",
@@ -29,13 +29,10 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/compiler-cli": "^4.0.0",
     "@angular/router": "^4.0.0",
-    "rxjs": "5.0.0-beta.12",
-    "systemjs": "0.19.38",
+    "rxjs": "^5.0.0-beta.12",
+    "systemjs": "^0.19.38",
     "zone.js": "^0.8.4",
     "core-js": "^2.4.1",
-    "@types/codemirror": "0.0.32",
-    "@types/hammerjs": "^2.0.32",
-    "@types/highlight.js": "^9.1.7",
     "@types/jasmine": "^2.2.33",
     "@types/node": "^6.0.42",
     "@types/selenium-webdriver": "^2.44.28",
@@ -96,6 +93,5 @@
     "url": "https://github.com/greengerong/rebirth-storage/issues"
   },
   "homepage": "https://github.com/greengerong/rebirth-storage#readme",
-  "dependencies": {
-  }
+  "dependencies": {}
 }

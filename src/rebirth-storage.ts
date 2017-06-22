@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
 import { Injectable } from '@angular/core';
-import { Map } from 'es7-reflect-metadata/dist/dist/shim/map';
 
 function cloneDeep(obj) {
     return JSON.parse(JSON.stringify(obj));
