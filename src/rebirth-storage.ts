@@ -33,7 +33,7 @@ class RxDataCacheStrategy implements IDataCacheStrategy {
 
     put(result: any, putStorage: (data: Object) => void): Observable<any> {
         return result.map(data => {
-            setTimeout(() => putStorage(data));
+            putStorage(data);
             return data;
         });
     }
@@ -53,7 +53,7 @@ class PromiseDataCacheStrategy implements IDataCacheStrategy {
     }
 
     put(result: any, putStorage: (data: Object) => void): Promise<any> {
-        return result.then(data => setTimeout(() => putStorage(data)));
+        return result.then(data => putStorage(data));
     }
 
     get(result: any): Object {
@@ -78,7 +78,7 @@ class DataCacheStrategyFactory {
         if (strategy) {
             return strategy.put(value, (result) => storage.put(options, { type: strategy.name(), result }));
         }
-        setTimeout(() => storage.put(options, value));
+        storage.put(options, value);
         return value;
     }
 

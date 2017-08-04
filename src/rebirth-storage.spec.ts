@@ -22,18 +22,16 @@ describe('rebirth storage', () => {
                 data
             );
 
-            setTimeout(() => {
-                expect(JSON.parse(window.sessionStorage.getItem(pool)).test).toEqual(data);
-                expect(storageService.get({ pool, key, storageType })).toEqual(data);
+            expect(JSON.parse(window.sessionStorage.getItem(pool)).test).toEqual(data);
+            expect(storageService.get({ pool, key, storageType })).toEqual(data);
 
-                storageService.remove({ pool, key, storageType });
-                expect(JSON.parse(window.sessionStorage.getItem(pool))).toEqual({ test: null });
-                expect(JSON.parse(window.sessionStorage.getItem(pool)).test).toBeNull();
+            storageService.remove({ pool, key, storageType });
+            expect(JSON.parse(window.sessionStorage.getItem(pool))).toEqual({ test: null });
+            expect(JSON.parse(window.sessionStorage.getItem(pool)).test).toBeNull();
 
-                storageService.remove({ pool, storageType });
-                expect(window.sessionStorage.getItem(pool)).toBeNull();
-                done();
-            });
+            storageService.remove({ pool, storageType });
+            expect(window.sessionStorage.getItem(pool)).toBeNull();
+            done();
 
         });
 
