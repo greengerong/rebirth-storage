@@ -1,4 +1,4 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { REBIRTH_STORAGE_PROVIDERS } from './rebirth-storage';
 
 @NgModule({
