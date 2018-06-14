@@ -1,5 +1,4 @@
-import { Observable } from 'rxjs/Observable';
-import { fromPromise } from 'rxjs/observable/fromPromise';
+import { Observable, from } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 function cloneDeep(obj) {
@@ -17,8 +16,11 @@ export enum StorageType {
 
 interface IDataCacheStrategy {
     name(): string;
+
     match(data: any): boolean;
+
     put(data: any, putStorage: (result: Object) => void): any;
+
     get(data: any): Object;
 }
 
@@ -39,7 +41,7 @@ class RxDataCacheStrategy implements IDataCacheStrategy {
     }
 
     get(result: any): Object {
-        return fromPromise(Promise.resolve(result));
+        return from(Promise.resolve(result));
     }
 }
 
@@ -95,9 +97,13 @@ class DataCacheStrategyFactory {
 
 export interface IStorage {
     getAll(pool: string): any;
+
     get(options: { pool?: string, key: string }): Object;
+
     put(options: { pool?: string, key: string }, value: Object): any;
+
     remove(options: { pool?: string, key?: string });
+
     removeAll();
 }
 
@@ -159,7 +165,7 @@ export class MemoryStorage implements IStorage {
         if (!this.storage.has(pool)) {
             this.storage.set(pool, new Map<string, Object>());
         }
-        ( this.storage.get(pool) as any).set(key, cloneDeep(value));
+        (this.storage.get(pool) as any).set(key, cloneDeep(value));
     }
 
     remove({ pool = DEFAULT_STORAGE_POOL_KEY, key }: { pool?: string, key?: string }) {
