@@ -116,6 +116,46 @@
           }
         }
       }
+    },
+    "rebirth-storage": {
+      "root": "projects/rebirth-storage",
+      "sourceRoot": "projects/rebirth-storage/src",
+      "projectType": "library",
+      "prefix": "re",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/rebirth-storage/tsconfig.lib.json",
+            "project": "projects/rebirth-storage/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/rebirth-storage/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/rebirth-storage/src/test.ts",
+            "tsConfig": "projects/rebirth-storage/tsconfig.spec.json",
+            "karmaConfig": "projects/rebirth-storage/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/rebirth-storage/tsconfig.lib.json",
+              "projects/rebirth-storage/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "rebirth-storage-lib"
